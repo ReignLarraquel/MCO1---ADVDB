@@ -11,15 +11,15 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema appointments
 -- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema appointments
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `appointments` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `appointments` ;
+-- Drop existing tables if they exist to avoid errors
+DROP TABLE IF EXISTS `appointments`.`appointments`;
+DROP TABLE IF EXISTS `appointments`.`px`;
+DROP TABLE IF EXISTS `appointments`.`doctors`;
+DROP TABLE IF EXISTS `appointments`.`clinics`;
 
--- -----------------------------------------------------
+-- Proceed with table creation as before
+
 -- Table `appointments`.`clinics`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appointments`.`clinics` (
   `clinicid` VARCHAR(45) NOT NULL,
   `hospitalname` LONGTEXT NULL DEFAULT NULL,
@@ -32,10 +32,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
--- -----------------------------------------------------
 -- Table `appointments`.`doctors`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appointments`.`doctors` (
   `doctorid` VARCHAR(45) NOT NULL,
   `mainspecialty` VARCHAR(45) NULL DEFAULT NULL,
@@ -45,10 +42,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
--- -----------------------------------------------------
 -- Table `appointments`.`px`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appointments`.`px` (
   `pxid` VARCHAR(45) NOT NULL,
   `age` INT NULL DEFAULT NULL,
@@ -58,10 +52,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
--- -----------------------------------------------------
 -- Table `appointments`.`appointments`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appointments`.`appointments` (
   `pxid` VARCHAR(45) NULL DEFAULT NULL,
   `clinicid` VARCHAR(45) NULL DEFAULT NULL,
@@ -77,21 +68,10 @@ CREATE TABLE IF NOT EXISTS `appointments`.`appointments` (
   PRIMARY KEY (`apptid`),
   INDEX `pxid_idx` (`pxid` ASC) VISIBLE,
   INDEX `clinicid_idx` (`clinicid` ASC) VISIBLE,
-  INDEX `doctorid_idx` (`doctorid` ASC) VISIBLE,
-  CONSTRAINT `clinicid`
-    FOREIGN KEY (`clinicid`)
-    REFERENCES `appointments`.`clinics` (`clinicid`),
-  CONSTRAINT `doctorid`
-    FOREIGN KEY (`doctorid`)
-    REFERENCES `appointments`.`doctors` (`doctorid`),
-  CONSTRAINT `pxid`
-    FOREIGN KEY (`pxid`)
-    REFERENCES `appointments`.`px` (`pxid`))
+  INDEX `doctorid_idx` (`doctorid` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
