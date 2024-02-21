@@ -35,7 +35,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `appointments`.`doctors`
 CREATE TABLE IF NOT EXISTS `appointments`.`doctors` (
   `doctorid` VARCHAR(45) NOT NULL,
-  `mainspecialty` VARCHAR(45) NULL DEFAULT NULL,
+  `mainspecialty` VARCHAR(200) NULL DEFAULT NULL,
   `age` INT NULL DEFAULT NULL,
   PRIMARY KEY (`doctorid`))
 ENGINE = InnoDB
